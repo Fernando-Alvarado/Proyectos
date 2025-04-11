@@ -517,43 +517,473 @@ finally:
 
 ---
 
-## 🧪 Ejercicios prácticos
+## 📌 Apéndice: Tips sobre manejo de errores
 
-1. Escribe una función que reciba dos números y retorne su división. Si el divisor es cero, captura el error e imprime un mensaje.
-2. Intenta convertir una cadena `"abc"` a entero usando `int()`. Captura el error y muestra qué tipo de error fue.
-3. Usa un bloque `try/except/finally` para abrir un archivo ficticio (`"no_existe.txt"`), capturar el error y escribir un mensaje en `finally`.
-4. Crea una función que pida al usuario su edad (con `input()`), convierta a entero y maneje si la entrada no es válida.
+### ❓ ¿Puedo usar múltiples `except`?
+
+✅ Sí. Puedes capturar distintos errores por separado:
+
+```{python}
+try:
+    x = int("hola")  # Esto causará ValueError
+except ValueError:
+    print("No es un número válido")
+except ZeroDivisionError:
+    print("División entre cero no permitida")
+```
+
+Esto permite ofrecer mensajes **específicos según el tipo de error**.
 
 ---
 
-¿Te interesa que la próxima lección sea sobre **archivos**, **módulos**, o **programación orientada a objetos**? 📂🧱🔁
+### ❓ ¿Cuándo es recomendable usar `try`/`except`?
+
+- Cuando el error **no es fatal** y el programa puede continuar.
+- Si dependes de:
+  - Entrada del usuario
+  - Archivos
+  - Red o APIs externas
+- Si deseas capturar el error para **mostrar un mensaje claro** o **registrarlo**.
+
+⚠️ No abuses de `try/except` para evitar validar datos. Primero intenta anticipar los errores.
+
+---
+
+### ❓ ¿Puedo hacer algo más que imprimir errores?
+
+¡Sí! Dentro de un bloque `except` puedes:
+
+- Escribir el error en un archivo `.txt`
+- Mostrar mensajes en una interfaz gráfica
+- Volver a solicitar datos al usuario
+- Lanzar otra excepción
+- Notificar a otro sistema (por ejemplo, vía correo)
+
+```{python}
+try:
+    resultado = 10 / 0
+except ZeroDivisionError as e:
+    with open("errores.txt", "a") as f:
+        f.write(f"Ocurrió un error: {e}\n")
+    print("Error registrado correctamente.")
+```
+
+
+---
+
+## 📌 Apéndice: Errores comunes en Python
+
+En esta sección listamos errores frecuentes en distintos contextos de trabajo con Python, sus causas y cómo se pueden manejar.
+
+---
+
+### 📂 Errores al leer archivos
+
+| Error                  | Causa común                                       | Solución                           |
+|------------------------|--------------------------------------------------|------------------------------------|
+| `FileNotFoundError`    | El archivo no existe o la ruta es incorrecta     | Verifica ruta o usa `try/except`   |
+| `PermissionError`      | No tienes permiso para leer o escribir el archivo | Cambia permisos o la ubicación     |
+| `IsADirectoryError`    | Se intentó abrir una carpeta como si fuera archivo | Asegúrate de apuntar a un archivo  |
+
+```{python}
+try:
+    with open("datos.csv") as f:
+        contenido = f.read()
+except FileNotFoundError:
+    print("El archivo no se encontró.")
+```
+
+---
+
+### 📝 Errores al modificar datos
+
+| Error              | Causa común                             | Solución                             |
+|--------------------|------------------------------------------|--------------------------------------|
+| `IndexError`       | Acceder a un índice fuera de rango       | Verifica longitud con `len()`        |
+| `KeyError`         | Clave no existente en un diccionario     | Usa `.get()` o `in` para validar     |
+| `TypeError`        | Operación inválida entre tipos distintos | Asegúrate de usar tipos compatibles  |
+| `ValueError`       | Conversión incorrecta de datos           | Usa `try/except` para validarlo      |
+
+```{python}
+datos = {"nombre": "Ana"}
+print(datos.get("edad", "No especificado"))  # Evita KeyError
+```
+
+---
+
+### 🌐 Errores en conexiones a bases de datos o servidores
+
+| Error                        | Causa común                                    | Solución                              |
+|------------------------------|-----------------------------------------------|---------------------------------------|
+| `ConnectionError`            | Falla al conectarse a una base o servidor     | Verifica URL/IP, puertos y conexión   |
+| `TimeoutError`               | El servidor no respondió en tiempo esperado   | Aumenta el timeout o revisa red       |
+| `AuthenticationError`*       | Credenciales incorrectas                      | Verifica usuario/contraseña           |
+| `OperationalError` (SQL)     | Error general en conexión SQL                 | Revisa cadena de conexión o driver    |
+
+> *Estos errores pueden variar según el paquete (`requests`, `pymysql`, `sqlalchemy`, etc.)
+
+```{python}
+import requests
+
+try:
+    r = requests.get("https://servidor-ficticio.com", timeout=5)
+except requests.exceptions.RequestException as e:
+    print("Error de conexión:", e)
+```
+
+---
+
+### ⚙️ Otros errores frecuentes
+
+| Error              | Causa                                           |
+|--------------------|------------------------------------------------|
+| `NameError`        | Usar una variable que no ha sido definida      |
+| `AttributeError`   | Intentar usar un método que no existe para un objeto |
+| `ImportError`      | Módulo no encontrado al usar `import`          |
+| `SyntaxError`      | Error de escritura del código (estructural)    |
+| `IndentationError` | Sangría incorrecta (espacios/tabs mezclados)   |
+
+```{python}
+try:
+    print(variable_no_definida)
+except NameError:
+    print("La variable no ha sido definida.")
+```
+
+
+
+
+
+
+## 🧱 9. Importación de módulos en Python
+
+Python cuenta con una enorme cantidad de **módulos y librerías** que extienden sus funcionalidades. Puedes importar tanto módulos incluidos por defecto como otros instalados con `pip`.
+
+---
+
+### 📦 Importar módulos estándar
+
+Se hace con la palabra clave `import`. Algunos ejemplos comunes:
+
+```{python}
+import math
+import random
+```
+
+También puedes importar funciones específicas:
+
+```{python}
+from math import sqrt, pi
+```
+
+O usar un **alias** para abreviar:
+
+```{python}
+import numpy as np
+```
+
+---
+
+### 🔢 Ejemplos con módulos integrados
+
+#### `math`: operaciones matemáticas avanzadas
+
+```{python}
+import math
+
+print(math.sqrt(25))    # Raíz cuadrada
+print(math.pi)          # Pi
+print(math.sin(math.radians(90)))  # Seno de 90 grados
+```
+
+#### `random`: números aleatorios
+
+```{python}
+import random
+
+print(random.randint(1, 10))        # Número entero aleatorio
+print(random.choice(["rojo", "azul", "verde"]))  # Selección aleatoria
+```
+
+---
+
+### 🌍 Instalar y usar librerías externas con `pip`
+
+`pip` es el **gestor de paquetes** de Python. Con él puedes instalar librerías de terceros desde internet:
+
+```bash
+pip install nombre_del_paquete
+```
+
+Por ejemplo:
+
+```bash
+pip install pandas
+pip install matplotlib
+```
+
+Luego puedes importarlas en tu código:
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+```
+
+---
+
+### 🧠 ¿Dónde buscar paquetes útiles?
+
+- https://pypi.org → Repositorio oficial de paquetes (`pip`)
+- https://awesome-python.com/ → Lista curada por categorías
+- Documentación de librerías como `pandas`, `numpy`, `scikit-learn`, etc.
+
+---
+
+
+## 🧱 10. Lectura y escritura de archivos en Python
+
+Python permite leer y escribir archivos de texto fácilmente. Esto es útil para guardar información, leer datos externos o generar reportes.
+
+---
+
+### 📖 Abrir archivos con `open()`
+
+La función `open()` se usa para abrir archivos. Tiene dos argumentos principales:
+
+- `nombre`: el nombre o ruta del archivo
+- `modo`: cómo se va a abrir:
+  - `"r"` → lectura (default)
+  - `"w"` → escritura (sobrescribe)
+  - `"a"` → escritura (agrega al final)
+  - `"r+"` → lectura y escritura
+
+```{python}
+archivo = open("ejemplo.txt", "w")  # Abre para escribir
+archivo.write("Hola mundo\n")       # Escribe una línea
+archivo.close()                     # Cierra el archivo
+```
+
 
 
 ```{python}
-#Ejecicio 1
+import os
+print(os.getcwd())
 
-def division(a,b):
-    try:
-        return a / b
-    except ZeroDivisionError:
-        print("No se puede dividir entre cero")
-
-
-division(10,0)
-division(4,6)
 ```
+
+
+### 📘 Leer archivos
 
 ```{python}
-
-def suma(a,b):
-    try:
-        return a + b
-    except TypeError:
-        print("No se puede sumar un número y una cadena")
-        
-suma(10, "a")
-
+archivo = open("ejemplo.txt", "r")
+contenido = archivo.read()
+print(contenido)
+archivo.close()
 ```
+
+O puedes leer línea por línea:
+
+```{python}
+archivo = open("ejemplo.txt", "r")
+for linea in archivo:
+    print(linea.strip())  # strip() elimina saltos de línea
+archivo.close()
+```
+
+---
+
+### ✅ Uso recomendado: `with`
+
+Usar `with` es una forma más segura y limpia de trabajar con archivos. Cierra automáticamente el archivo.
+
+```{python}
+with open("ejemplo.txt", "a") as archivo:
+    archivo.write("Otra línea\n")
+```
+
+Leer con `with`:
+
+```{python}
+with open("ejemplo.txt", "r") as archivo:
+    for linea in archivo:
+        print(linea.strip())
+```
+
+---
+
+### ✏️ Escritura: `write()` y `writelines()`
+
+```{python}
+lineas = ["Primera línea\n", "Segunda línea\n"]
+
+with open("salida.txt", "w") as f:
+    f.writelines(lineas)
+```
+
+---
+
+### ⚠️ Notas importantes
+
+- Siempre **cierra los archivos** si no usas `with`
+- Usa `try/except` para manejar errores si el archivo no existe o hay problemas de acceso
+- Puedes usar rutas relativas (`"archivo.txt"`) o absolutas (`"C:/ruta/archivo.txt"`)
+
+
+
+
+
+
+## 🧱 11. Introducción a la programación orientada a objetos (POO)
+
+La **programación orientada a objetos (OOP)** permite modelar conceptos del mundo real mediante *clases*, *objetos*, *atributos* y *métodos*. Es muy útil para organizar y reutilizar el código en programas complejos.
+
+---
+
+### 🧩 ¿Qué es una clase?
+
+Una **clase** es un molde o plantilla para crear objetos. Define qué atributos (variables) y métodos (funciones) tendrán los objetos.
+
+```{python}
+class Persona:
+    pass  # Clase vacía
+```
+
+---
+
+### 🧍 Crear objetos
+
+Un **objeto** es una instancia de una clase.
+
+```{python}
+persona1 = Persona()
+print(type(persona1))  # <class '__main__.Persona'>
+```
+
+---
+
+### 🏗️ Método constructor `__init__` y `self`
+
+`__init__` se ejecuta automáticamente al crear un objeto. `self` representa al objeto mismo (como `this` en otros lenguajes).
+
+```{python}
+class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+```
+
+---
+
+### 📦 Atributos
+
+Los atributos son las variables asociadas a cada objeto.
+
+```{python}
+p = Persona("Ana", 30)
+print(p.nombre)
+print(p.edad)
+```
+
+---
+
+### ⚙️ Métodos
+
+Los métodos son funciones definidas dentro de una clase que actúan sobre el objeto.
+
+```{python}
+class Persona:
+    def __init__(self, nombre):
+        self.nombre = nombre
+    
+    def saludar(self):
+        print(f"Hola, soy {self.nombre}")
+
+p = Persona("Luis")
+p.saludar()
+```
+
+---
+
+### 🧠 Buenas prácticas
+
+- Los nombres de clases se escriben en **Mayúsculas** (CamelCase)
+- Los nombres de métodos y atributos van en **minúsculas_con_guiones_bajos**
+- Siempre debe ir `self` como primer parámetro de los métodos (incluso si no se usa)
+
+---
+
+
+---
+
+## 📌 Apéndice: Herencia y clases hijas en Python
+
+En programación orientada a objetos, la **herencia** permite crear nuevas clases a partir de clases existentes. Las clases hijas **heredan** atributos y métodos de la clase padre, y pueden agregar o modificar su comportamiento.
+
+---
+
+### 🧬 Clase hija que hereda de una clase padre
+
+```{python}
+class Animal:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def hablar(self):
+        print("Este animal no hace sonido.")
+
+# Clase hija
+class Perro(Animal):
+    def hablar(self):
+        print(f"{self.nombre} dice: ¡Guau!")
+
+p = Perro("Toby")
+p.hablar()
+```
+
+✔️ La clase `Perro` hereda de `Animal` y **reescribe** el método `hablar()`.
+
+---
+
+### 🔁 Usar `super()` para reutilizar el constructor
+
+Si quieres extender el constructor de la clase padre en la hija, usa `super()`:
+
+```{python}
+class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+
+class Estudiante(Persona):
+    def __init__(self, nombre, edad, carrera):
+        super().__init__(nombre, edad)
+        self.carrera = carrera
+
+e = Estudiante("Ana", 20, "Matemáticas")
+print(e.nombre, e.edad, e.carrera)
+```
+
+---
+
+### 🧠 ¿Cuándo usar herencia?
+
+- Cuando varias clases **comparten comportamientos comunes**.
+- Para **evitar duplicar código**.
+- Para extender o especializar clases existentes.
+
+Evita usar herencia **cuando no hay una relación clara de tipo "es-un"**. A veces es mejor usar composición (`tiene-un`) o simplemente funciones separadas.
+
+---
+
+## 🧪 Ejercicios extra
+
+1. Crea una clase `Empleado` con nombre y sueldo. Luego crea una clase hija `Gerente` con un atributo extra `departamento` y un método `mostrar_informacion()`.
+2. Crea una clase `Vehiculo` con método `mover()`, y dos clases hijas `Auto` y `Bicicleta` que sobrescriban ese método con diferentes mensajes.
+3. Crea una clase `Figura` con método `area()` y `perimetro()`, y luego crea `Cuadrado` y `Círculo` como clases hijas.
+
+---
+
+Esta base te permitirá construir jerarquías de clases limpias y reutilizables 🧱🧬
 
 
 

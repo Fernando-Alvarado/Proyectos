@@ -1,0 +1,17 @@
+---
+title: "Librerias python"
+author: "Fernando Alvarado"
+date: "2025-04-11"
+output: html_document
+---
+
+
+```{python}
+import math  #Funciones matematicas
+import random #Numero aleatorios
+import numpy as np
+
+
+import pandas as pd #Manejo de datos
+import matplotlib.pyplot as plt 
+```
