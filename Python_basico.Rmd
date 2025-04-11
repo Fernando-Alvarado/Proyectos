@@ -1,0 +1,563 @@
+---
+title: "Python_basico"
+author: "Fernando Alvarado"
+date: "2025-04-11"
+output: html_document
+---
+
+# Resumen introduccion a Python basico 
+
+
+## 🧱 1. Sintaxis básica
+
+
+En Python, **la estructura del código depende de la indentación**. No se usan llaves `{}` ni `begin-end`, como en otros lenguajes. En su lugar, **los bloques de código se delimitan por sangría** (indentación).
+
+**La indentación estándar** es de 4 espacios (o un tab, pero se recomienda espacios para evitar errores).
+
+Además, Python **usa dos puntos `:`** al final de líneas que inician bloques (como `if`, `for`, `while`, `def`, etc.).
+
+```{python}
+# Ejemplo de indentación y uso de dos puntos
+x = 5
+
+if x > 0:
+    print("x es positivo")
+    print("Esto también está dentro del if")
+
+print("Esto ya está fuera del if")
+```
+
+## 🧱 2. Tipos de datos en Python
+
+En Python, cada valor tiene un **tipo de dato**, que define qué operaciones se pueden hacer con él. A continuación revisamos los tres tipos más comunes:
+
+---
+
+### 🔢 Números
+
+Python maneja varios tipos numéricos, pero los principales son:
+
+- `int`: números enteros (sin decimales)
+- `float`: números con decimales
+
+```{python}
+# Entero
+edad = 25
+print(type(edad))  # <class 'int'>
+
+# Flotante
+peso = 70.5
+print(type(peso))  # <class 'float'>
+```
+
+Puedes hacer operaciones matemáticas básicas con ellos:
+
+```{python}
+a = 10
+b = 3
+
+print(a + b)  # Suma
+print(a - b)  # Resta
+print(a * b)  # Multiplicación
+print(a / b)  # División (resultado float)
+print(a // b) # División entera
+print(a % b)  # Módulo
+print(a ** b) # Potencia
+```
+
+---
+
+### 🧵 Cadenas de texto (`str`)
+
+Se escriben entre comillas simples `'texto'` o dobles `"texto"`.
+
+```{python}
+nombre = "Ana"
+mensaje = 'Hola mundo'
+print(type(nombre))  # <class 'str'>
+```
+
+Puedes concatenar o repetir cadenas:
+
+```{python}
+saludo = "Hola"
+nombre = "Luis"
+print(saludo + " " + nombre)  # Concatenación
+print("¡" + saludo + "! " * 3)  # Repetición
+```
+
+También puedes acceder a sus caracteres:
+
+```{python}
+palabra = "Python"
+print(palabra[0])  # P
+print(palabra[-1]) # n
+print(palabra[1:3])  # yt
+```
+
+---
+
+### ✅ Booleanos (`bool`)
+
+Solo tienen dos valores posibles: `True` o `False`.
+
+```{python}
+# Resultado de una comparación
+mayor = 5 > 3
+print(mayor)         # True
+print(type(mayor))   # <class 'bool'>
+```
+
+Los booleanos son usados en condicionales, bucles, y operaciones lógicas (`and`, `or`, `not`).
+
+```{python}
+a = True
+b = False
+
+print(a and b)  # False
+print(a or b)   # True
+print(not a)    # False
+```
+
+## 🧱 3. Variables en Python
+
+En Python, una **variable** es un nombre que se asigna a un valor para poder usarlo más adelante. No necesitas declarar el tipo de la variable; Python lo deduce automáticamente.
+
+---
+
+### 📝 Declaración y asignación
+
+Para **crear una variable**, simplemente se usa el signo igual `=` para asignarle un valor:
+
+```{python}
+x = 5
+nombre = "Ana"
+pi = 3.1416
+```
+
+- `x` es una variable de tipo entero (`int`)
+- `nombre` es una cadena de texto (`str`)
+- `pi` es un número flotante (`float`)
+
+Puedes usar estas variables en operaciones o imprimirlas:
+
+```{python}
+area = pi * (5 ** 2)
+print("Área del círculo:", area)
+```
+
+## 🧱 4. Operadores en Python
+
+### ⚖️ Operadores de comparación
+
+Se usan para comparar dos valores. El resultado siempre es `True` o `False`.
+
+| Operador | Descripción           | Ejemplo      |
+|----------|-----------------------|--------------|
+| `==`     | Igual a               | `5 == 5`     |
+| `!=`     | Distinto de           | `5 != 3`     |
+| `<`      | Menor que             | `3 < 7`      |
+| `>`      | Mayor que             | `10 > 2`     |
+| `<=`     | Menor o igual que     | `5 <= 5`     |
+| `>=`     | Mayor o igual que     | `6 >= 4`     |
+
+```{python}
+x = 10
+y = 5
+
+print(x == y)
+print(x != y)
+print(x > y)
+print(x < y)
+print(x >= y)
+print(x <= y)
+```
+
+---
+
+### 🔀 Operadores lógicos
+
+Se usan para combinar condiciones.
+
+| Operador | Descripción         | Ejemplo              | Resultado |
+|----------|---------------------|-----------------------|-----------|
+| `and`    | Verdadero si ambos son verdaderos | `True and False` | `False`   |
+| `or`     | Verdadero si al menos uno lo es   | `True or False`  | `True`    |
+| `not`    | Niega un valor lógico             | `not True`       | `False`   |
+
+```{python}
+a = True
+b = False
+
+print(a and b)
+print(a or b)
+print(not a)
+```
+
+
+
+## 🧱 5. Estructuras de control en Python
+
+Las estructuras de control nos permiten **tomar decisiones** y **repetir instrucciones** en nuestro código. Son la base de cualquier programa dinámico.
+
+---
+
+### 🔀 Condicionales: `if`, `elif`, `else`
+
+Sirven para ejecutar diferentes bloques de código según condiciones lógicas.
+
+```{python}
+edad = 18
+
+if edad >= 18:
+    print("Eres mayor de edad")
+elif edad >= 13:
+    print("Eres adolescente")
+else:
+    print("Eres menor de edad")
+```
+
+- Se usa `:` para abrir el bloque
+- El código dentro debe ir **indentado**
+- Puedes tener tantos `elif` como necesites
+
+---
+
+### 🔁 Bucles: `for` y `while`
+
+#### 🔸 `for`
+
+Se usa para recorrer secuencias como listas, rangos o cadenas:
+
+```{python}
+for i in range(5):
+    print("Número:", i)
+```
+
+```{python}
+frutas = ["manzana", "plátano", "uva"]
+for fruta in frutas:
+    print(fruta)
+```
+
+#### 🔸 `while`
+
+Se repite mientras una condición sea verdadera:
+
+```{python}
+x = 0
+while x < 3:
+    print("x vale:", x)
+    x += 1
+```
+
+⚠️ Asegúrate de que la condición cambie, si no, se repite infinitamente.
+
+---
+
+### ⏹️ Control de flujo: `break` y `continue`
+
+#### `break`: termina el bucle antes de tiempo
+
+```{python}
+for i in range(10):
+    if i == 5:
+        break
+    print(i)  # Imprime del 0 al 4
+```
+
+#### `continue`: salta a la siguiente iteración
+
+```{python}
+for i in range(5):
+    if i == 2:
+        continue
+    print(i)  # Imprime 0, 1, 3, 4 (salta el 2)
+```
+
+
+
+
+## 🧱 6. Funciones en Python
+
+Las funciones nos permiten **organizar, reutilizar y simplificar código**. Son bloques que ejecutan tareas específicas y pueden recibir datos (argumentos) y devolver resultados (valores de retorno).
+
+---
+
+### 🔧 Definir funciones con `def`
+
+Se definen usando la palabra clave `def`, seguida del nombre de la función, paréntesis y dos puntos `:`.
+
+```{python}
+def saludar():
+    print("¡Hola desde una función!")
+    
+saludar()
+```
+
+Puedes poner el código que quieras dentro de una función, siempre **indentado**.
+
+---
+
+### 📥 Argumentos y valores de retorno
+
+Las funciones pueden recibir **argumentos** (entradas) y devolver un **valor** con `return`.
+
+```{python}
+def sumar(a, b):
+    resultado = a + b
+    return resultado
+
+suma = sumar(3, 4)
+print(suma)
+```
+
+También puedes definir argumentos con **valores por defecto**:
+
+```{python}
+def saludar(nombre="usuario"):
+    print(f"Hola, {nombre}")
+
+saludar()
+saludar("Ana")
+```
+
+---
+
+### ⚙️ Funciones incorporadas (built-in)
+
+Python trae muchas funciones listas para usar:
+
+| Función      | Descripción                     |
+|--------------|---------------------------------|
+| `print()`    | Imprime en pantalla             |
+| `len()`      | Devuelve la longitud de una secuencia |
+| `type()`     | Muestra el tipo de un valor     |
+| `int()`, `str()`, `float()` | Conversiones de tipo |
+| `input()`    | Lee entrada del usuario         |
+| `max()`, `min()` | Valores máximos y mínimos  |
+| `sum()`      | Suma los elementos de una lista |
+
+```{python}
+frutas = ["manzana", "pera", "uva"]
+
+print(len(frutas))       # 3
+print(type(frutas))      # <class 'list'>
+print(max([2, 5, 1]))    # 5
+print(sum([1, 2, 3]))    # 6
+```
+
+
+
+
+## 🧱 7. Estructuras de datos en Python
+
+Python incluye varias estructuras para almacenar colecciones de datos. Cada una tiene propiedades particulares según lo que necesites hacer con la información.
+
+---
+
+### 🔹 Listas (`[]`)
+
+Son **colecciones ordenadas y modificables**. Pueden contener diferentes tipos de datos.
+
+```{python}
+numeros = [1, 2, 3, 4, 5]
+print(numeros[0])       # Primer elemento
+print(len(numeros))     # Longitud de la lista
+
+numeros.append(6)       # Agrega un elemento
+numeros[2] = 33         # Modifica un elemento
+print(numeros)
+```
+
+---
+
+### 🔸 Tuplas (`()`)
+
+Son como las listas, pero **inmutables** (no se pueden modificar después de crearse).
+
+```{python}
+coordenadas = (10, 20)
+print(coordenadas[0])    # 10
+
+# coordenadas[1] = 30    ❌ Error: no se puede modificar
+```
+
+Se usan cuando quieres proteger los datos contra cambios accidentales.
+
+---
+
+### 🔑 Diccionarios (`{}`)
+
+Guardan pares **clave:valor**, como una mini base de datos.
+
+```{python}
+persona = {
+    "nombre": "Carlos",
+    "edad": 30,
+    "ciudad": "Madrid"
+}
+
+print(persona["nombre"])
+persona["edad"] = 31        # Modificar un valor
+persona["email"] = "carlos@example.com"  # Agregar nueva clave
+print(persona)
+```
+
+---
+
+### 🔘 Conjuntos (`set()`)
+
+Son **colecciones desordenadas y sin elementos repetidos**.
+
+```{python}
+numeros = {1, 2, 3, 2, 1}
+print(numeros)  # {1, 2, 3}
+
+# Operaciones de conjuntos
+pares = {2, 4, 6}
+print(numeros & pares)   # Intersección: {2}
+print(numeros | pares)   # Unión: {1, 2, 3, 4, 6}
+```
+### 🧮 Matrices (`numpy.array`)
+
+Python no tiene una clase nativa para matrices como R, pero se pueden usar arrays bidimensionales con `numpy`.
+
+```{python}
+import numpy as np
+
+matriz = np.array([[1, 2, 3],
+                   [4, 5, 6]])
+print(matriz)
+print(matriz.shape)     # Dimensiones
+print(matriz[1, 2])     # Elemento fila 2, columna 3
+```
+
+---
+
+### 📊 DataFrames (`pandas.DataFrame`)
+
+Equivalentes a los **dataframes de R**, permiten almacenar datos tabulares.
+
+```{python}
+import pandas as pd
+
+data = {
+    "Nombre": ["Ana", "Luis", "Marta"],
+    "Edad": [23, 35, 29],
+    "Ciudad": ["CDMX", "Monterrey", "Guadalajara"]
+}
+
+df = pd.DataFrame(data)
+print(df)
+
+print(df["Edad"])       # Acceder a una columna
+print(df.iloc[0])       # Acceder a la primera fila
+print(df.shape)         # Dimensiones
+```
+
+
+
+
+## 🧱 8. Manejo de errores en Python
+
+Cuando un programa encuentra un problema durante su ejecución, Python lanza un **error (excepción)**. Si no lo controlamos, el programa se detiene. Para evitarlo, usamos bloques `try`, `except` y `finally`.
+
+---
+
+### ⚠️ Estructura básica: `try` y `except`
+
+```{python}
+try:
+    # Código que podría fallar
+    x = 10 / 0
+except ZeroDivisionError:
+    print("¡No se puede dividir entre cero!")
+```
+
+- El bloque `try` contiene el código que puede lanzar un error.
+- El bloque `except` **captura el error** y permite continuar el programa.
+
+---
+
+### 🔎 Capturar errores genéricos
+
+```{python}
+try:
+    a = int("texto")
+except Exception as e:
+    print("Ocurrió un error:", e)
+```
+
+Usar `Exception` permite capturar cualquier tipo de error, y `as e` guarda el mensaje.
+
+---
+
+### 🔄 Bloque `finally`
+
+Se ejecuta **siempre**, ocurra o no un error. Ideal para cerrar archivos, liberar memoria, etc.
+
+```{python}
+try:
+    x = 1 / 0
+except ZeroDivisionError:
+    print("Error de división")
+finally:
+    print("Este bloque siempre se ejecuta")
+```
+
+---
+
+### ✅ Buenas prácticas
+
+- Específica el tipo de error si sabes cuál puede ocurrir (`ValueError`, `ZeroDivisionError`, etc.)
+- Usa `finally` si hay tareas que siempre deben ejecutarse.
+- No uses `except:` sin más — puede ocultar errores importantes.
+
+---
+
+## 🧪 Ejercicios prácticos
+
+1. Escribe una función que reciba dos números y retorne su división. Si el divisor es cero, captura el error e imprime un mensaje.
+2. Intenta convertir una cadena `"abc"` a entero usando `int()`. Captura el error y muestra qué tipo de error fue.
+3. Usa un bloque `try/except/finally` para abrir un archivo ficticio (`"no_existe.txt"`), capturar el error y escribir un mensaje en `finally`.
+4. Crea una función que pida al usuario su edad (con `input()`), convierta a entero y maneje si la entrada no es válida.
+
+---
+
+¿Te interesa que la próxima lección sea sobre **archivos**, **módulos**, o **programación orientada a objetos**? 📂🧱🔁
+
+
+```{python}
+#Ejecicio 1
+
+def division(a,b):
+    try:
+        return a / b
+    except ZeroDivisionError:
+        print("No se puede dividir entre cero")
+
+
+division(10,0)
+division(4,6)
+```
+
+```{python}
+
+def suma(a,b):
+    try:
+        return a + b
+    except TypeError:
+        print("No se puede sumar un número y una cadena")
+        
+suma(10, "a")
+
+```
+
+
+
+
+
+
+
