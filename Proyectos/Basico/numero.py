@@ -1,7 +1,7 @@
 # Proyecto realizado por: [Fernando Alvarado Palacios]
 # Fecha: [2025-4-13]
-#Descriccion del programa:
-# En este proyecto se tratar de adivinar numeros, el usuario que se hacerque mas gana
+# Descripción del programa:
+# Juego para adivinar un número entre 1 y 100. Gana quien lo adivine primero: el jugador o la computadora.
 
 import random 
 

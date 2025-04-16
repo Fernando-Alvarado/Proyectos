@@ -1,0 +1,1705 @@
+---
+title: "Python Intermedio"
+author: "Fernando Alvarado"
+date: "2025-04-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## 🧱 12. Comprensión profunda de estructuras de datos
+
+Python permite trabajar con estructuras de datos de forma muy flexible y expresiva. Aquí exploraremos **listas y diccionarios por comprensión**, el uso **eficiente de `set` y `tuple`**, y técnicas para manipular listas y diccionarios de forma avanzada.
+
+---
+
+### 🧠 Listas por comprensión (List Comprehension)
+
+Permiten crear listas nuevas a partir de otras secuencias con una sintaxis compacta.
+
+```{python}
+# Crear una lista de cuadrados del 1 al 10
+cuadrados = [x**2 for x in range(1, 11)]
+print(cuadrados)
+
+# Filtrar números pares
+pares = [x for x in range(20) if x % 2 == 0]
+print(pares)
+```
+
+---
+
+### 🔑 Diccionarios por comprensión
+
+Igual que las listas, pero usando la sintaxis `{clave:valor for ...}`.
+
+```{python}
+# Crear un diccionario de número → cuadrado
+cuadrados = {x: x**2 for x in range(1, 6)}
+print(cuadrados)
+
+# Convertir dos listas en un diccionario
+nombres = ["Ana", "Luis", "Marta"]
+edades = [25, 30, 22]
+personas = {n: e for n, e in zip(nombres, edades)}
+print(personas)
+```
+
+---
+
+### 🔘 Uso eficiente de `set` y `tuple`
+
+- `set` elimina duplicados automáticamente y permite operaciones como intersección, unión, etc.
+- `tuple` se usa cuando los datos **no deben cambiar** (inmutabilidad).
+
+```{python}
+# Eliminar duplicados
+numeros = [1, 2, 2, 3, 4, 4]
+unicos = set(numeros)
+print(unicos)
+
+# Comparar dos listas
+a = {1, 2, 3}
+b = {3, 4, 5}
+print(a & b)  # Intersección
+print(a | b)  # Unión
+
+# Usar tuplas como claves de diccionario
+coords = {(0, 0): "origen", (1, 2): "punto A"}
+print(coords[(1, 2)])
+```
+
+---
+
+### 🛠️ Manipulación avanzada de listas
+
+Algunas técnicas útiles con listas:
+
+```{python}
+numeros = [1, 2, 3, 4, 5, 6]
+
+# Rebanado (slicing)
+print(numeros[1:4])     # Elementos del índice 1 al 3
+print(numeros[::-1])    # Lista invertida
+
+# Eliminar elementos por condición
+numeros = [x for x in numeros if x % 2 != 0]
+print(numeros)
+
+# Map y filter
+cuadrados = list(map(lambda x: x**2, [1, 2, 3]))
+pares = list(filter(lambda x: x % 2 == 0, range(10)))
+```
+
+---
+
+### 🛠️ Manipulación avanzada de diccionarios
+
+```{python}
+datos = {"a": 1, "b": 2, "c": 3}
+
+# Acceder a claves y valores
+for clave, valor in datos.items():
+    print(clave, "→", valor)
+
+# Invertir claves y valores
+inverso = {v: k for k, v in datos.items()}
+print(inverso)
+
+# Filtrar claves por condición
+filtrado = {k: v for k, v in datos.items() if v % 2 != 0}
+print(filtrado)
+```
+
+---
+
+## 🧪 Ejercicios prácticos
+
+1. Crea una lista por comprensión con los números del 1 al 30 que sean múltiplos de 3.
+2. Dado un diccionario de alumnos → calificación, crea otro que solo contenga a los aprobados (>= 6).
+3. Elimina los duplicados de una lista de frutas y ordénala alfabéticamente.
+4. Invierte las claves y valores de un diccionario simple.
+5. Usando `zip`, convierte dos listas (`nombres`, `notas`) en un diccionario.
+6. Crea una lista con las palabras de una oración que tengan más de 4 letras.
+
+---
+
+¿Te gustaría continuar con funciones lambda, uso de `map`/`filter` más a fondo o saltamos a visualización de datos? 🧮📊
+
+
+---
+
+## 📌 Apéndice: Funciones `lambda` y funciones de orden superior
+
+Python permite usar **funciones anónimas** (`lambda`) y pasar funciones como argumentos, lo que da lugar a funciones de **orden superior**. Esto es muy útil para trabajar con listas, filtros y operaciones funcionales.
+
+---
+
+### ⚡ Funciones `lambda`
+
+Una `lambda` es una función pequeña y sin nombre, escrita en una sola línea.
+
+```{python}
+# Función tradicional
+def cuadrado(x):
+    return x ** 2
+
+# Equivalente lambda
+cuadrado_lambda = lambda x: x ** 2
+
+print(cuadrado(4))
+print(cuadrado_lambda(4))
+```
+
+También puede recibir varios parámetros:
+
+```{python}
+sumar = lambda a, b: a + b
+print(sumar(3, 5))  # 8
+```
+
+---
+
+### 🧠 Funciones de orden superior
+
+Son funciones que reciben otras funciones como argumento. Ejemplos integrados en Python:
+
+#### `map(function, iterable)`
+
+Aplica la función a cada elemento del iterable.
+
+```{python}
+numeros = [1, 2, 3, 4]
+cuadrados = list(map(lambda x: x**2, numeros))
+print(cuadrados)
+```
+
+#### `filter(function, iterable)`
+
+Filtra los elementos para los que la función devuelve `True`.
+
+```{python}
+pares = list(filter(lambda x: x % 2 == 0, range(10)))
+print(pares)
+```
+
+#### `sorted(iterable, key=func)`
+
+Ordena elementos usando una función como criterio.
+
+```{python}
+nombres = ["ana", "Luis", "MARTA", "pedro"]
+ordenados = sorted(nombres, key=lambda x: x.lower())
+print(ordenados)
+```
+
+---
+
+### ✅ Cuándo usar `lambda` y funciones de orden superior
+
+- Cuando necesitas una función sencilla y **no quieres definirla por separado**.
+- Para **operaciones rápidas** sobre listas, diccionarios, etc.
+- Cuando trabajas con **estructuras funcionales** como `map`, `filter`, `sorted`, `max`, `min`, etc.
+
+---
+
+## 🧪 Ejercicios extra
+
+1. Usa `map` y `lambda` para elevar al cubo todos los elementos de una lista `[1, 2, 3, 4, 5]`.
+2. Usa `filter` para conservar solo las palabras que empiezan con vocal en una lista.
+3. Ordena una lista de tuplas `(nombre, edad)` por edad usando `lambda`.
+4. Crea una lista de funciones lambda que calculen: doble, triple y cuadrado de un número, y aplícalas a un mismo valor.
+
+---
+
+Este apéndice te da herramientas poderosas para escribir código más expresivo y compacto ⚙️🧠
+
+
+
+## 🧱 13. Funciones avanzadas en Python
+
+Las funciones en Python son extremadamente versátiles: pueden ser anónimas (`lambda`), recibir un número variable de argumentos, usarse como objetos y decorarse para extender su funcionalidad. Aquí cubrimos lo esencial de su uso avanzado.
+
+---
+
+### ⚡ Funciones anónimas (`lambda`)
+
+Son funciones sin nombre, útiles para operaciones rápidas y de una sola línea.
+
+```{python}
+# Función lambda que duplica un número
+doble = lambda x: x * 2
+print(doble(4))  # 8
+
+# Lambda con múltiples argumentos
+suma = lambda a, b: a + b
+print(suma(2, 3))  # 5
+```
+
+---
+
+### ✳️ Argumentos variables: `*args` y `**kwargs`
+
+- `*args`: permite pasar **cualquier cantidad de argumentos posicionales** (como una tupla).
+- `**kwargs`: permite pasar **argumentos con nombre** (como un diccionario).
+
+```{python}
+def mostrar_args(*args):
+    for arg in args:
+        print("Posicional:", arg)
+
+def mostrar_kwargs(**kwargs):
+    for clave, valor in kwargs.items():
+        print(f"{clave} = {valor}")
+
+mostrar_args(1, 2, 3)
+mostrar_kwargs(nombre="Ana", edad=30)
+```
+
+Puedes combinar ambos:
+
+```{python}
+def ejemplo_completo(a, *args, **kwargs):
+    print("a:", a)
+    print("args:", args)
+    print("kwargs:", kwargs)
+
+ejemplo_completo(1, 2, 3, x=10, y=20)
+```
+
+---
+
+### 🧵 Decoradores (`@decorador`)
+
+Un **decorador** es una función que **envuelve a otra** para modificar o extender su comportamiento.
+
+```{python}
+def decorador(func):
+    def nueva_funcion():
+        print("Antes de la función")
+        func()
+        print("Después de la función")
+    return nueva_funcion
+
+@decorador
+def saludar():
+    print("Hola mundo")
+
+saludar()
+```
+
+Esto equivale a:
+
+```{python}
+saludar = decorador(saludar_original)
+```
+
+---
+
+### 🎁 Closures y funciones como objetos de primera clase
+
+En Python, las funciones son objetos: se pueden **guardar en variables, pasar como argumentos y retornar** desde otras funciones.
+
+#### Closure: función interna que recuerda el contexto de la externa
+
+```{python}
+def crear_multiplicador(factor):
+    def multiplicar(x):
+        return x * factor
+    return multiplicar
+
+doble = crear_multiplicador(2)
+print(doble(5))  # 10
+```
+
+---
+
+## 🧪 Ejercicios prácticos
+
+1. Crea una función que reciba `*args` y devuelva la suma de todos los números pasados.
+2. Define una función que imprima los valores de cualquier `**kwargs` que reciba.
+3. Escribe un decorador que registre (imprima) la hora en la que se ejecuta una función.
+4. Crea una función `crear_saludo(nombre)` que devuelva una función que, al llamarla, diga `"Hola <nombre>"`.
+5. Crea una lista de funciones lambda que hagan `x+1`, `x+2` y `x+3`, y aplícalas sobre un valor `10`.
+
+---
+
+¿Quieres que sigamos con programación funcional, generadores/iteradores, o entramos a visualización de datos? 🧮📊🔄
+
+
+
+---
+
+## 📌 Apéndice: Programación funcional y generadores
+
+Python permite aplicar conceptos de **programación funcional**, como funciones puras, inmutabilidad y composición. También permite crear **generadores**, funciones que producen valores bajo demanda y consumen poca memoria.
+
+---
+
+### 🧠 Programación funcional
+
+En este paradigma:
+
+- Las funciones son **ciudadanos de primera clase**
+- Se favorece la **inmutabilidad** (no modificar estados)
+- Se promueve el uso de funciones puras (sin efectos secundarios)
+
+#### Funciones útiles: `map()`, `filter()`, `reduce()`
+
+```{python}
+# map: aplica una función a cada elemento
+numeros = [1, 2, 3, 4]
+cuadrados = list(map(lambda x: x**2, numeros))
+
+# filter: selecciona elementos que cumplen una condición
+pares = list(filter(lambda x: x % 2 == 0, numeros))
+
+# reduce: acumula un resultado (requiere importar)
+from functools import reduce
+suma_total = reduce(lambda x, y: x + y, numeros)
+```
+
+---
+
+### 🔁 Generadores
+
+Un **generador** es una función que **produce una secuencia de valores**, uno a la vez, usando `yield` en lugar de `return`.
+
+```{python}
+def contador(maximo):
+    n = 1
+    while n <= maximo:
+        yield n
+        n += 1
+
+for num in contador(5):
+    print(num)
+```
+
+✅ Ventajas:
+- Bajo consumo de memoria
+- Útil para trabajar con datos grandes o secuencias infinitas
+
+---
+
+### 🔄 Expresiones generadoras
+
+Más compactas que las funciones generadoras:
+
+```{python}
+gen = (x**2 for x in range(5))
+for val in gen:
+    print(val)
+```
+
+---
+
+### 🧪 Ejercicios extra
+
+1. Usa `map()` para convertir una lista de temperaturas en °C a °F.
+2. Usa `filter()` para obtener los nombres que empiezan con vocal de una lista.
+3. Escribe una función generadora que produzca los primeros `n` múltiplos de 3.
+4. Escribe una expresión generadora que produzca los cuadrados de los números del 1 al 10.
+5. Crea una función generadora que simule una cuenta regresiva desde `n` hasta 0.
+
+---
+
+Este apéndice te permite escribir código más **elegante, eficiente y expresivo** 🌀
+
+
+
+
+## 🧱 14. Programación orientada a objetos (OOP) - Parte 2
+
+En esta lección exploramos conceptos avanzados de la Programación Orientada a Objetos en Python: **herencia**, **polimorfismo**, **encapsulamiento**, **métodos mágicos**, **propiedades** y **clases abstractas**.
+
+---
+
+### 🧬 Herencia (repaso breve)
+
+Permite que una clase hija herede atributos y métodos de una clase padre.
+
+```{python}
+class Animal:
+    def hablar(self):
+        print("Hace un sonido")
+
+class Perro(Animal):
+    def hablar(self):
+        print("Guau")
+
+p = Perro()
+p.hablar()
+```
+
+---
+
+### 🌀 Polimorfismo
+
+Significa que una misma interfaz puede tener múltiples implementaciones.
+
+```{python}
+def hacer_hablar(animal):
+    animal.hablar()
+
+class Gato:
+    def hablar(self):
+        print("Miau")
+
+g = Gato()
+hacer_hablar(p)  # Guau
+hacer_hablar(g)  # Miau
+```
+
+---
+
+### 🔒 Encapsulamiento
+
+Controla el acceso a los atributos de un objeto:
+
+- `_atributo`: convención de "protegido"
+- `__atributo`: atributo "privado" (name mangling)
+
+```{python}
+class Cuenta:
+    def __init__(self, saldo):
+        self.__saldo = saldo
+
+    def mostrar_saldo(self):
+        return self.__saldo
+
+cuenta = Cuenta(1000)
+print(cuenta.mostrar_saldo())
+# print(cuenta.__saldo)  # Error
+```
+
+---
+
+### ✨ Métodos mágicos
+
+Son funciones especiales con doble guion bajo. Algunos útiles:
+
+```{python}
+class Libro:
+    def __init__(self, titulo):
+        self.titulo = titulo
+
+    def __str__(self):
+        return f"Libro: {self.titulo}"
+
+    def __eq__(self, otro):
+        return self.titulo == otro.titulo
+
+    def __len__(self):
+        return len(self.titulo)
+
+l1 = Libro("Python")
+l2 = Libro("Python")
+print(str(l1))      # Libro: Python
+print(l1 == l2)     # True
+print(len(l1))      # 6
+```
+
+---
+
+### ⚙️ Propiedades con `@property`
+
+Permite acceder a métodos como si fueran atributos, útil para validar datos.
+
+```{python}
+class Producto:
+    def __init__(self, precio):
+        self._precio = precio
+
+    @property
+    def precio(self):
+        return self._precio
+
+    @precio.setter
+    def precio(self, valor):
+        if valor >= 0:
+            self._precio = valor
+        else:
+            raise ValueError("Precio no puede ser negativo")
+
+p = Producto(50)
+p.precio = 100
+print(p.precio)
+```
+
+---
+
+### 🧱 Clases abstractas y métodos abstractos
+
+Sirven como base para otras clases. No se pueden instanciar directamente.
+
+```{python}
+from abc import ABC, abstractmethod
+
+class Figura(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+class Cuadrado(Figura):
+    def __init__(self, lado):
+        self.lado = lado
+
+    def area(self):
+        return self.lado ** 2
+```
+
+---
+
+## 🧪 Ejercicios prácticos
+
+1. Crea una clase `Vehiculo` con un método `mover()`. Luego crea `Auto` y `Bicicleta` que sobrescriban ese método.
+2. Crea una clase `Empleado` con atributo privado `__sueldo` y un método `mostrar_sueldo()`.
+3. Implementa la clase `Libro` con `__str__`, `__len__` y `__eq__`.
+4. Crea una clase `Rectangulo` con propiedades `base` y `altura` que no permitan valores negativos.
+5. Define una clase abstracta `Instrumento` con método abstracto `tocar()`, y luego una clase `Guitarra` que la implemente.
+
+---
+
+¿Te gustaría continuar con estructuras de datos personalizadas, testing o bases de datos con `sqlite3` o `pandas`? 🧪📂📋
+
+
+
+## 🧱 15. Manejo de excepciones avanzado
+
+Además de capturar errores comunes, Python permite crear **excepciones personalizadas** y trabajar con **context managers** para manejar recursos de forma segura y elegante.
+
+---
+
+### 🚨 Excepciones personalizadas
+
+Puedes definir tus propias clases de error heredando de `Exception`. Esto te permite lanzar errores específicos y controlarlos claramente.
+
+```{python}
+class DivisionPorCeroError(Exception):
+    pass
+
+def dividir(a, b):
+    if b == 0:
+        raise DivisionPorCeroError("No se puede dividir entre cero")
+    return a / b
+
+try:
+    dividir(10, 0)
+except DivisionPorCeroError as e:
+    print("Error personalizado:", e)
+```
+
+✔️ Puedes crear jerarquías de excepciones si tu aplicación es grande.
+
+---
+
+### 📦 Context Managers (`with`, `__enter__`, `__exit__`)
+
+Los context managers **gestionan recursos** (archivos, conexiones, etc.) automáticamente.
+
+```{python}
+with open("archivo.txt", "w") as f:
+    f.write("Hola mundo")
+# El archivo se cierra automáticamente
+```
+
+También puedes **crear tus propios context managers** con `__enter__` y `__exit__`.
+
+```{python}
+class MiContexto:
+    def __enter__(self):
+        print("Entrando al contexto")
+        return self
+
+    def __exit__(self, tipo, valor, traza):
+        print("Saliendo del contexto")
+
+with MiContexto():
+    print("Dentro del bloque")
+```
+
+- `__enter__()` se ejecuta al entrar en el bloque `with`.
+- `__exit__()` se ejecuta al salir, y puede recibir información del error si ocurrió.
+
+---
+
+### 🧠 Cuándo usar context managers
+
+- Para **abrir y cerrar archivos**
+- Para **conectar a bases de datos**
+- Para **bloquear recursos** (como hilos o procesos)
+- Para **manejar recursos que deben limpiarse** aunque haya errores
+
+---
+
+## 🧪 Ejercicios prácticos
+
+1. Crea una excepción personalizada `EdadInvalidaError` que se lance si la edad ingresada es negativa.
+2. Crea una función `leer_archivo(path)` que devuelva el contenido y capture `FileNotFoundError`.
+3. Implementa un context manager llamado `Temporizador` que imprima cuándo se entra y sale del bloque `with`.
+4. Crea una clase `ConexionFalsa` con métodos `__enter__` y `__exit__`, y dentro del contexto imprime "Conectado" y al salir "Desconectado".
+
+---
+
+¿Quieres continuar con manejo de archivos CSV/JSON, conexión a bases de datos o pruebas automatizadas? 📂🧪🧾
+
+
+
+
+
+## 🧱 16. Módulos y paquetes en Python
+
+Una de las ventajas de Python es que puedes **organizar tu código en archivos reutilizables** llamados **módulos** y agruparlos en **paquetes**. Esto mejora la mantenibilidad, legibilidad y escalabilidad de tus programas.
+
+---
+
+### 📦 Organización del código en módulos
+
+Un **módulo** es simplemente un archivo `.py` con funciones, clases o variables que puedes importar en otros archivos.
+
+```python
+# archivo: utilidades.py
+def saludar(nombre):
+    return f"Hola, {nombre}"
+```
+
+```python
+# archivo: main.py
+import utilidades
+
+print(utilidades.saludar("Ana"))
+```
+
+También puedes importar solo lo que necesitas:
+
+```python
+from utilidades import saludar
+print(saludar("Luis"))
+```
+
+---
+
+### 📁 Paquetes y `__init__.py`
+
+Un **paquete** es una carpeta que contiene un archivo `__init__.py`. Ese archivo puede estar vacío, pero indica que la carpeta es un **paquete importable**.
+
+```text
+mi_proyecto/
+│
+├── paquete/
+│   ├── __init__.py
+│   ├── modulo1.py
+│   └── modulo2.py
+└── main.py
+```
+
+Importación:
+
+```python
+from paquete.modulo1 import funcion_x
+```
+
+✔️ Puedes colocar funciones comunes en `__init__.py` para importarlas directamente desde el paquete.
+
+---
+
+### 🧭 Importaciones absolutas y relativas
+
+#### 🔹 Importación absoluta
+
+Desde la raíz del proyecto:
+
+```python
+from paquete.modulo1 import funcion_x
+```
+
+#### 🔸 Importación relativa
+
+Desde dentro del paquete:
+
+```python
+from .modulo1 import funcion_x        # Importar desde mismo nivel
+from ..subpaquete.modulo3 import y    # Subir un nivel
+```
+
+✅ Usar importaciones absolutas es más claro en proyectos grandes.  
+Las relativas son útiles cuando tu paquete está aislado del entorno principal.
+
+---
+
+### ⚠️ Buenas prácticas
+
+- Usa nombres descriptivos para módulos (`analisis_datos.py`, no `util.py`)
+- Agrupa módulos por tema dentro de paquetes
+- Evita ciclos de importación (módulos que se importan entre sí recursivamente)
+- Usa `__all__` en `__init__.py` para controlar qué se expone al importar con `*`
+
+---
+
+## 🧪 Ejercicios prácticos
+
+1. Crea un archivo `matematica.py` con funciones `suma(a,b)` y `resta(a,b)`. Luego crea `main.py` para usarlas.
+2. Crea un paquete `calculadora` con dos módulos: `aritmetica.py` y `geometria.py`. Prueba importar desde ambos.
+3. Dentro de `__init__.py`, importa por defecto una función llamada `bienvenida()`.
+4. Practica una importación relativa desde un módulo `modulo_b.py` hacia `modulo_a.py` dentro del mismo paquete.
+5. Crea un proyecto completo con estructura modular y comenta para qué sirve cada archivo.
+
+---
+
+¿Quieres seguir con archivos CSV y JSON, bases de datos (`sqlite3`), o desarrollo de entornos virtuales y distribución de paquetes? 🧾🗃️📦
+
+
+
+
+
+## 🧱 17. Manejo de archivos más allá del texto
+
+Python permite trabajar no solo con archivos de texto plano, sino también con **archivos binarios** y **formatos estructurados** como `CSV` y `JSON`, muy comunes en ciencia de datos, bases de datos y APIs.
+
+---
+
+### 🧊 Lectura y escritura de archivos binarios
+
+Usa los modos `'rb'` (lectura binaria) y `'wb'` (escritura binaria). Es útil para imágenes, archivos PDF, audio, etc.
+
+```{python}
+# Guardar archivo binario
+with open("imagen.jpg", "rb") as archivo_original:
+    contenido = archivo_original.read()
+
+with open("copia.jpg", "wb") as copia:
+    copia.write(contenido)
+```
+
+✅ Los archivos binarios manejan **bytes**, no texto. No puedes usar `.readline()` ni `.write("texto")`.
+
+---
+
+### 📑 Lectura y escritura de CSV
+
+#### Usando el módulo `csv`
+
+```{python}
+import csv
+
+# Escribir archivo CSV
+with open("personas.csv", "w", newline="") as archivo:
+    escritor = csv.writer(archivo)
+    escritor.writerow(["Nombre", "Edad"])
+    escritor.writerow(["Ana", 30])
+    escritor.writerow(["Luis", 25])
+
+# Leer archivo CSV
+with open("personas.csv", "r") as archivo:
+    lector = csv.reader(archivo)
+    for fila in lector:
+        print(fila)
+```
+
+#### Como diccionarios
+
+```{python}
+# Leer como diccionario
+with open("personas.csv", "r") as archivo:
+    lector = csv.DictReader(archivo)
+    for fila in lector:
+        print(fila["Nombre"], "→", fila["Edad"])
+```
+
+---
+
+### 🔁 Lectura y escritura de JSON
+
+`JSON` es un formato muy usado para **intercambio de datos**, especialmente en APIs.
+
+```{python}
+import json
+
+datos = {"nombre": "Ana", "edad": 30, "activo": True}
+
+# Escribir archivo JSON
+with open("datos.json", "w") as archivo:
+    json.dump(datos, archivo, indent=4)
+
+# Leer archivo JSON
+with open("datos.json", "r") as archivo:
+    cargado = json.load(archivo)
+    print(cargado["nombre"])
+```
+
+---
+
+### 🧠 ¿Cuál usar?
+
+| Formato | Ideal para                        |
+|---------|-----------------------------------|
+| Binario | Imágenes, audio, video, archivos grandes |
+| CSV     | Datos tabulares simples (hojas de cálculo, bases de datos) |
+| JSON    | Intercambio de datos estructurados (APIs, configuración)  |
+
+---
+
+## 🧪 Ejercicios prácticos
+
+1. Copia una imagen `.jpg` usando `rb` y `wb`.
+2. Crea un archivo `productos.csv` con columnas `nombre`, `precio`, `stock`. Escribe 3 productos y luego léelos.
+3. Guarda un diccionario en formato `JSON` y recupéralo desde el archivo.
+4. Lee un CSV con `DictReader` e imprime solo los productos cuyo `stock` sea mayor a 10.
+5. Transforma un archivo JSON cargado en un diccionario y modifica uno de sus valores antes de volver a guardarlo.
+
+---
+
+¿Te gustaría que lo siguiente sea sobre consumo de APIs con `requests`, conexión a bases de datos o gráficos con `matplotlib`? 🌐📡📊
+
+
+
+
+---
+
+## 📌 Apéndice: Consumo de APIs con `requests`
+
+Muchas aplicaciones modernas se comunican con servicios externos a través de **APIs (Application Programming Interfaces)**. En Python, el paquete `requests` permite **realizar solicitudes HTTP fácilmente**.
+
+---
+
+### 🌐 ¿Qué es una API?
+
+Una API expone datos o funcionalidades mediante URLs. Puedes obtener datos en formatos como `JSON` o `XML`.
+
+Ejemplo:  
+`https://api.chucknorris.io/jokes/random` → Devuelve un chiste aleatorio en formato JSON.
+
+---
+
+### ⚙️ Instalación del paquete
+
+```bash
+pip install requests
+```
+
+---
+
+### 🔄 Realizar una solicitud `GET`
+
+```{python}
+import requests
+
+url = "https://api.chucknorris.io/jokes/random"
+respuesta = requests.get(url)
+
+if respuesta.status_code == 200:
+    datos = respuesta.json()
+    print("Chiste:", datos["value"])
+else:
+    print("Error al conectar con la API")
+```
+
+- `.get()` → realiza la solicitud
+- `.json()` → convierte la respuesta a diccionario
+- `.status_code` → revisa si fue exitosa (200 = OK)
+
+---
+
+### 📤 Enviar datos con `POST`
+
+```{python}
+url = "https://httpbin.org/post"
+datos = {"usuario": "Ana", "clave": "123"}
+
+respuesta = requests.post(url, json=datos)
+print(respuesta.json())
+```
+
+Usamos `.post()` para enviar datos, típicamente en JSON o formularios.
+
+---
+
+### ⚠️ Buenas prácticas
+
+- Revisa el código de estado antes de acceder a `.json()`
+- Usa `try/except` para manejar errores de conexión
+- No expongas claves API ni credenciales directamente en el código
+
+---
+
+## 🧪 Ejercicios extra
+
+1. Consulta la API de Chuck Norris y guarda 3 chistes distintos en una lista.
+2. Consulta la API de Pokémon (`https://pokeapi.co/api/v2/pokemon/ditto`) y extrae su nombre y habilidades.
+3. Envía un `POST` con tus datos a `https://httpbin.org/post` y observa la respuesta.
+4. Usa `try/except` para capturar errores de conexión o respuestas inválidas.
+5. Revisa la documentación de una API pública de tu interés y haz tu propia consulta.
+
+---
+
+Este apéndice te introduce a la base de aplicaciones web modernas y consumo de datos externos 🌐📡
+
+
+
+
+
+## 🧱 18. Uso de librerías estándar y externas
+
+Python cuenta con una extensa **librería estándar** y permite instalar **librerías externas** que extienden su funcionalidad para ciencia de datos, web, automatización, etc. En esta lección exploramos algunas esenciales.
+
+---
+
+### 🧰 Librerías estándar útiles
+
+#### 🔁 `itertools`: combinatoria y generadores infinitos
+
+```{python}
+import itertools
+
+# Producto cartesiano
+for a in itertools.product("AB", repeat=2):
+    print(a)
+
+# Contador infinito (hasta cierto punto)
+for i in itertools.count(10):
+    if i > 15:
+        break
+    print(i)
+```
+
+#### 🗃️ `collections`: estructuras mejoradas
+
+```{python}
+from collections import Counter, defaultdict, namedtuple
+
+# Contar frecuencias
+contador = Counter("abracadabra")
+print(contador)
+
+# Diccionario con valor por defecto
+dd = defaultdict(int)
+dd["x"] += 1
+print(dd)
+
+# Tupla con nombre
+Persona = namedtuple("Persona", "nombre edad")
+p = Persona("Ana", 30)
+print(p.nombre)
+```
+
+#### 🕒 `datetime`: fechas y tiempos
+
+```{python}
+from datetime import datetime, timedelta
+
+ahora = datetime.now()
+print("Ahora:", ahora)
+
+mañana = ahora + timedelta(days=1)
+print("Mañana:", mañana)
+
+print("Solo fecha:", ahora.date())
+print("Solo hora:", ahora.time())
+```
+
+---
+
+### 🌐 Librerías externas comunes
+
+#### 🌐 `requests`: solicitudes HTTP
+
+```{python}
+import requests
+r = requests.get("https://api.chucknorris.io/jokes/random")
+print(r.json()["value"])
+```
+
+#### 📦 `json`: trabajar con JSON
+
+```{python}
+import json
+
+diccionario = {"nombre": "Ana", "edad": 30}
+texto = json.dumps(diccionario)
+recuperado = json.loads(texto)
+print(recuperado)
+```
+
+#### 💻 `os`: interacción con el sistema operativo
+
+```{python}
+import os
+
+print(os.getcwd())            # Directorio actual
+print(os.listdir("."))        # Archivos en la carpeta
+os.mkdir("nueva_carpeta")     # Crear carpeta
+```
+
+#### 🖥️ `sys`: información del sistema
+
+```{python}
+import sys
+
+print(sys.argv)         # Argumentos de línea de comandos
+print(sys.version)      # Versión de Python
+```
+
+---
+
+### 📦 Manejo de entornos virtuales
+
+Los entornos virtuales permiten **aislar dependencias de proyectos**.
+
+#### ✅ Usando `venv` (incluido en Python)
+
+```bash
+python -m venv mi_entorno
+source mi_entorno/bin/activate      # Linux/macOS
+mi_entorno\Scripts\activate         # Windows
+
+# Luego puedes instalar paquetes
+pip install requests
+```
+
+#### 🐍 Usando `conda` (requiere instalación previa)
+
+```bash
+conda create -n mi_env python=3.11
+conda activate mi_env
+conda install requests
+```
+
+---
+
+## 🧪 Ejercicios prácticos
+
+1. Usa `itertools.product` para generar todas las combinaciones posibles entre las letras `"a", "b", "c"` y los números `1, 2`.
+2. Usa `Counter` para contar las letras en `"banana"`.
+3. Muestra la fecha de hoy y la fecha de hace 7 días usando `datetime`.
+4. Crea un archivo JSON desde un diccionario y recupéralo.
+5. Crea un script que imprima el número de argumentos recibidos desde línea de comandos.
+6. Crea un entorno virtual e instala una librería como `pandas` o `faker`.
+
+---
+
+¿Te gustaría que prepare una lección final sobre distribución de paquetes (`setup.py`, PyPI), testing o proyectos integradores? 📦🧪🔁
+
+
+
+
+---
+
+## 📌 Apéndice: Testing y depuración en Python
+
+Escribir código sin errores no siempre es posible, pero Python ofrece herramientas para **probar** (`testing`) y **depurar** (`debugging`) nuestros programas de manera profesional y eficiente.
+
+---
+
+### 🧪 Testing: Pruebas automatizadas
+
+#### ✅ Pruebas con `assert`
+
+Para verificar condiciones rápidamente durante el desarrollo:
+
+```{python}
+def suma(a, b):
+    return a + b
+
+assert suma(2, 2) == 4
+assert suma(0, 0) == 0
+# assert suma(2, 2) == 5  # Levanta AssertionError
+```
+
+---
+
+#### 🧪 Pruebas con `unittest`
+
+Framework incorporado en la librería estándar:
+
+```{python}
+import unittest
+
+def multiplicar(a, b):
+    return a * b
+
+class TestMultiplicacion(unittest.TestCase):
+    def test_basico(self):
+        self.assertEqual(multiplicar(2, 3), 6)
+
+    def test_con_cero(self):
+        self.assertEqual(multiplicar(0, 5), 0)
+
+if __name__ == "__main__":
+    unittest.main()
+```
+
+✅ Puedes guardar los tests en un archivo separado, como `test_modulo.py`.
+
+---
+
+### 🐞 Depuración (Debugging)
+
+#### 👀 Usar `print()` (forma básica)
+
+A veces, imprimir variables clave es suficiente para encontrar errores:
+
+```{python}
+def dividir(a, b):
+    print("a:", a, "b:", b)
+    return a / b
+```
+
+---
+
+#### 🧭 Usar `pdb`: el depurador interactivo
+
+```{python}
+import pdb
+
+def calcular_area(base, altura):
+    pdb.set_trace()
+    return base * altura
+
+print(calcular_area(3, 5))
+```
+
+Durante la ejecución puedes usar comandos como:
+- `n` → siguiente línea
+- `c` → continuar ejecución
+- `p variable` → imprimir variable
+- `q` → salir del depurador
+
+---
+
+#### 🧰 Usar depuradores en editores como VSCode o PyCharm
+
+- Puedes **poner puntos de ruptura (breakpoints)** sin tocar el código.
+- Te permite **inspeccionar valores** en tiempo real.
+- Ideal para proyectos grandes o en producción.
+
+---
+
+## 🧪 Ejercicios extra
+
+1. Usa `assert` para verificar que una función `es_par(n)` devuelve `True` si `n` es múltiplo de 2.
+2. Crea un archivo `test_calculadora.py` con 2 pruebas unitarias: una para `suma(a, b)` y otra para `resta(a, b)`.
+3. Inserta `pdb.set_trace()` dentro de una función con error lógico y explora sus variables paso a paso.
+4. Haz que una prueba con `unittest` falle a propósito y analiza el mensaje de error.
+5. Activa el modo debug en tu editor y pon un breakpoint para analizar paso a paso una función.
+
+---
+
+Este apéndice te ayuda a escribir **código más confiable, robusto y fácil de mantener** 🧪🐛
+
+
+
+
+
+## 🧱 19. Procesamiento y limpieza de datos
+
+Python es ampliamente utilizado en análisis de datos. En esta lección aprenderás a usar las librerías **`pandas`** y **`numpy`** para leer, filtrar y transformar datos de forma eficiente.
+
+---
+
+### 📦 Cargar librerías
+
+```{python}
+import pandas as pd
+import numpy as np
+```
+
+---
+
+### 📥 Lectura de datos
+
+`pandas` permite leer archivos CSV, Excel, JSON y más:
+
+```{python}
+# Leer archivo CSV
+df = pd.read_csv("datos.csv")
+
+# Leer Excel
+# df = pd.read_excel("datos.xlsx")
+
+# Vista rápida
+print(df.head())
+print(df.info())
+```
+
+---
+
+### 🧼 Limpieza de datos
+
+#### Identificar y manejar valores faltantes (`NaN`)
+
+```{python}
+# Ver si hay valores nulos
+print(df.isnull().sum())
+
+# Eliminar filas con NaN
+df = df.dropna()
+
+# Rellenar con un valor
+df = df.fillna(0)
+
+# Rellenar con la media de la columna
+df["columna"] = df["columna"].fillna(df["columna"].mean())
+```
+
+---
+
+### 🔍 Filtrado de datos
+
+```{python}
+# Filtrar por condición
+adultos = df[df["edad"] >= 18]
+
+# Filtrar múltiples condiciones
+hombres_mayores = df[(df["sexo"] == "M") & (df["edad"] > 30)]
+```
+
+---
+
+### 🔁 Transformación de columnas
+
+```{python}
+# Crear nueva columna
+df["doble_edad"] = df["edad"] * 2
+
+# Aplicar función a una columna
+df["nombre_mayuscula"] = df["nombre"].apply(str.upper)
+
+# Usar numpy para transformación
+df["log_ingresos"] = np.log(df["ingresos"] + 1)
+```
+
+---
+
+### 🧱 Agrupamiento y resumen
+
+```{python}
+# Agrupar y resumir
+resumen = df.groupby("sexo")["edad"].mean()
+print(resumen)
+```
+
+---
+
+### 🧪 Ejercicios prácticos
+
+1. Lee un archivo CSV de ejemplo y muestra las primeras 5 filas.
+2. Filtra todas las personas con edad mayor a 40 y sexo "F".
+3. Rellena los valores faltantes de una columna numérica con su media.
+4. Crea una nueva columna llamada `"es_mayor"` que valga `True` si la persona tiene más de 18 años.
+5. Agrupa los datos por `"ocupacion"` y calcula el promedio de `"ingresos"`.
+
+---
+
+### 💡 Tip extra: describir datos numéricos
+
+```{python}
+print(df.describe())
+```
+
+---
+
+En la siguiente lección podemos cubrir visualización con `matplotlib`, `seaborn` o pasar a integración con bases de datos. ¿Cuál prefieres? 📊📈🗄️
+
+
+
+
+
+---
+
+## 📌 Apéndice: Manipulación avanzada de datos con `pandas`
+
+Este apéndice incluye técnicas comunes para limpiar y transformar datos más complejos, como cadenas de texto, fechas y datos inconsistentes.
+
+---
+
+### 🔤 Limpieza de cadenas de texto (`str`)
+
+`pandas` permite aplicar métodos de texto directamente a columnas con `.str`.
+
+```{python}
+# Eliminar espacios
+df["nombre"] = df["nombre"].str.strip()
+
+# Convertir a minúsculas/mayúsculas
+df["email"] = df["email"].str.lower()
+
+# Reemplazar caracteres
+df["pais"] = df["pais"].str.replace("Méx", "México", regex=False)
+
+# Extraer parte de texto
+df["dominio"] = df["email"].str.split("@").str[1]
+```
+
+---
+
+### 📅 Manejo de fechas con `pd.to_datetime`
+
+```{python}
+# Convertir columna a tipo fecha
+df["fecha_nacimiento"] = pd.to_datetime(df["fecha_nacimiento"])
+
+# Extraer componentes
+df["año"] = df["fecha_nacimiento"].dt.year
+df["mes"] = df["fecha_nacimiento"].dt.month
+df["día_semana"] = df["fecha_nacimiento"].dt.day_name()
+```
+
+💡 Si el formato no es estándar, puedes especificarlo:
+
+```{python}
+df["fecha"] = pd.to_datetime(df["fecha"], format="%d/%m/%Y")
+```
+
+---
+
+### 🔁 Reemplazo de valores
+
+```{python}
+# Reemplazar valores específicos
+df["sexo"] = df["sexo"].replace({"M": "Masculino", "F": "Femenino"})
+
+# Reemplazar múltiple con una función
+df["codigo"] = df["codigo"].apply(lambda x: str(x).zfill(5))  # Rellenar ceros
+```
+
+---
+
+### 📊 Detectar y eliminar duplicados
+
+```{python}
+# Verificar duplicados
+print(df.duplicated().sum())
+
+# Eliminar duplicados
+df = df.drop_duplicates()
+```
+
+---
+
+### 📋 Reindexar y renombrar columnas
+
+```{python}
+# Renombrar columnas
+df = df.rename(columns={"nombre": "Nombre Completo"})
+
+# Reordenar columnas
+df = df[["Nombre Completo", "edad", "sexo"]]
+```
+
+---
+
+## 🧪 Ejercicios extra
+
+1. Limpia una columna de nombres eliminando espacios y pasándola a mayúsculas.
+2. Convierte una columna de fechas y crea nuevas columnas con el año y el día de la semana.
+3. Reemplaza códigos de país (`"MX"`, `"AR"`, `"CL"`) por sus nombres completos.
+4. Detecta y elimina filas duplicadas de un DataFrame.
+5. Ordena las columnas del DataFrame con `"fecha"`, `"nombre"`, `"ingresos"` en ese orden.
+
+---
+
+Estas herramientas te ayudan a preparar los datos para análisis, visualización y modelado de forma sólida 🧼🧱📊
+
+
+
+
+
+## 🧱 20. Programación funcional en Python
+
+La programación funcional promueve el uso de funciones como entidades de primera clase: se pueden pasar como argumentos, retornarse desde otras funciones y usarse en operaciones como mapeo, filtrado y reducción.
+
+---
+
+### 🔁 Función `map()`
+
+Aplica una función a cada elemento de un iterable.
+
+```{python}
+numeros = [1, 2, 3, 4]
+cuadrados = list(map(lambda x: x**2, numeros))
+print(cuadrados)  # [1, 4, 9, 16]
+```
+
+---
+
+### 🔍 Función `filter()`
+
+Filtra elementos que cumplen con una condición booleana.
+
+```{python}
+numeros = [10, 15, 20, 25, 30]
+pares = list(filter(lambda x: x % 2 == 0, numeros))
+print(pares)  # [10, 20, 30]
+```
+
+---
+
+### 🔄 Función `reduce()` (de `functools`)
+
+Acumula un resultado aplicando una función binaria.
+
+```{python}
+from functools import reduce
+
+numeros = [1, 2, 3, 4]
+producto = reduce(lambda x, y: x * y, numeros)
+print(producto)  # 24
+```
+
+---
+
+### 🧰 Módulo `functools`
+
+Ofrece herramientas útiles para funciones de orden superior.
+
+```{python}
+from functools import partial, lru_cache
+
+# partial: fija argumentos a una función
+def potencia(base, exponente):
+    return base ** exponente
+
+cuadrado = partial(potencia, exponente=2)
+print(cuadrado(5))  # 25
+
+# lru_cache: memoriza resultados para acelerar llamadas repetidas
+@lru_cache
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+print(fibonacci(30))
+```
+
+---
+
+### ⚙️ Módulo `operator`
+
+Proporciona funciones predefinidas equivalentes a operadores:
+
+```{python}
+import operator
+
+suma = operator.add(3, 5)         # 8
+producto = operator.mul(4, 2)     # 8
+igualdad = operator.eq(10, 10)    # True
+```
+
+También útil con `map()` o `reduce()`:
+
+```{python}
+from functools import reduce
+from operator import mul
+
+numeros = [1, 2, 3, 4]
+producto = reduce(mul, numeros)
+print(producto)  # 24
+```
+
+---
+
+## 🧪 Ejercicios prácticos
+
+1. Usa `map()` para convertir una lista de nombres a mayúsculas.
+2. Usa `filter()` para quedarte solo con los números mayores a 10.
+3. Calcula la suma de una lista con `reduce()` y `operator.add`.
+4. Usa `partial()` para crear una función `triplicar(x)` que fije `multiplicar(x, 3)`.
+5. Crea una función recursiva con `lru_cache` para calcular la serie de Fibonacci hasta el número 35.
+
+---
+
+¿Te gustaría seguir con generadores y corutinas (`yield`, `send`) o prefieres que pasemos a visualización de datos o machine learning? 🔁📊📈
+
+
+
+
+
+---
+
+## 📌 Apéndice: Generadores y corutinas en Python (`yield`, `send`)
+
+Los **generadores** permiten crear funciones que devuelven valores **uno a uno**, manteniendo su estado entre llamadas. Las **corutinas** amplían este comportamiento, permitiendo **enviar valores al generador**.
+
+---
+
+### 🔁 Generadores con `yield`
+
+En lugar de `return`, usamos `yield` para **pausar** y **retener el estado**.
+
+```{python}
+def contador(maximo):
+    n = 1
+    while n <= maximo:
+        yield n
+        n += 1
+
+for numero in contador(5):
+    print(numero)
+```
+
+Cada vez que se llama al generador, continúa desde el último `yield`.
+
+---
+
+### ⚡ Comparación con listas
+
+```{python}
+# Lista: todos los valores en memoria
+numeros = [x**2 for x in range(1000000)]
+
+# Generador: uno por uno, sin cargar todo
+numeros = (x**2 for x in range(1000000))
+```
+
+✅ Útil para trabajar con datos grandes o flujos infinitos.
+
+---
+
+### 🔄 Corutinas con `send()`
+
+Puedes **enviar datos a un generador desde afuera** usando `send()`. Esto lo convierte en una **corutina**.
+
+```{python}
+def eco():
+    while True:
+        mensaje = yield
+        print("Eco:", mensaje)
+
+e = eco()
+next(e)            # Inicializa el generador
+e.send("Hola")     # Eco: Hola
+e.send("Python")   # Eco: Python
+```
+
+🧠 `yield` actúa como **punto de entrada y salida**.
+
+---
+
+### 🧪 Ejercicios extra
+
+1. Crea un generador que produzca los primeros `n` múltiplos de 3.
+2. Haz un generador que devuelva letras del abecedario una a una.
+3. Crea una corutina que reciba nombres con `send()` y los imprima formateados.
+4. Genera una lista infinita de números pares con `yield`, y deténla al llegar a 50.
+5. Usa una expresión generadora para obtener los cubos de los primeros 100 enteros.
+
+---
+
+Estos conceptos te dan más control sobre **cómo y cuándo se generan los datos**, lo que resulta útil en programación reactiva, streaming, y estructuras perezosas 🔁⚙️
+
+
+
+
+---
+
+## 📌 Apéndice: Visualización de datos con `matplotlib` y `seaborn`
+
+Las bibliotecas `matplotlib` y `seaborn` son herramientas fundamentales para **crear gráficos** en Python. `matplotlib` es más bajo nivel, mientras que `seaborn` permite visualizaciones estadísticas más fácilmente.
+
+---
+
+### 📦 Cargar librerías
+
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
+```
+
+---
+
+### 📊 Gráficos básicos con `matplotlib`
+
+#### 🔹 Gráfico de líneas
+
+```{python}
+x = np.arange(0, 10, 0.1)
+y = np.sin(x)
+
+plt.plot(x, y)
+plt.title("Seno")
+plt.xlabel("x")
+plt.ylabel("sin(x)")
+plt.grid()
+plt.show()
+```
+
+#### 🔹 Gráfico de barras
+
+```{python}
+categorias = ["A", "B", "C"]
+valores = [5, 3, 7]
+
+plt.bar(categorias, valores)
+plt.title("Ventas por categoría")
+plt.show()
+```
+
+#### 🔹 Histograma
+
+```{python}
+datos = np.random.randn(1000)
+
+plt.hist(datos, bins=30, color="skyblue")
+plt.title("Distribución normal")
+plt.show()
+```
+
+---
+
+### 📈 Visualización con `seaborn`
+
+Se construye sobre `matplotlib` y trabaja muy bien con `pandas`.
+
+#### 🔸 Gráfico de dispersión
+
+```{python}
+df = sns.load_dataset("tips")
+sns.scatterplot(data=df, x="total_bill", y="tip", hue="sex")
+plt.title("Cuenta total vs propina")
+plt.show()
+```
+
+#### 🔸 Boxplot y violinplot
+
+```{python}
+sns.boxplot(data=df, x="day", y="total_bill", hue="sex")
+plt.title("Distribución por día")
+plt.show()
+
+sns.violinplot(data=df, x="day", y="tip", inner="quartile")
+plt.show()
+```
+
+#### 🔸 Heatmap (mapa de calor)
+
+```{python}
+corr = df.corr(numeric_only=True)
+sns.heatmap(corr, annot=True, cmap="coolwarm")
+plt.title("Matriz de correlación")
+plt.show()
+```
+
+---
+
+### 🧪 Ejercicios extra
+
+1. Usa `matplotlib` para graficar la función `cos(x)` en el intervalo `[0, 2π]`.
+2. Usa `seaborn` para mostrar un histograma de ingresos por sexo usando `df.histplot()`.
+3. Crea un gráfico de barras con `plt.bar()` mostrando población por país ficticio.
+4. Con el dataset `"tips"`, grafica un `boxplot` de `"total_bill"` por `"smoker"`.
+5. Genera un heatmap con la correlación de variables numéricas en cualquier DataFrame.
+
+---
+
+Este apéndice te da las herramientas básicas para **comunicar visualmente tus análisis** 📊🧠  
+¿Te gustaría seguir con gráficos interactivos (`plotly`, `altair`) o preparamos una lección de machine learning?
+
+
+
